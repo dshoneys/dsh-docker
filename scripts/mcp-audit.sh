@@ -4,7 +4,8 @@
 set -euo pipefail
 
 : "${DSH_HOME:=/dsh-home}"
-: "${DSH_PROFILE:=web}"
+# MCP HTTP plugins load with `dsh web`; ignore compose's default headless profile.
+DSH_PROFILE="${MCP_AUDIT_PROFILE:-web}"
 FIXTURE="${1:-}"
 if [[ -z "$FIXTURE" ]]; then
   if [[ -f /fixtures/mcp-plugins.json ]]; then
@@ -48,11 +49,16 @@ set +e
 dsh --profile "$DSH_PROFILE" --dump-config >"$OUT/dump-config.yml" 2>"$OUT/dump-config.err"
 set -e
 
+echo "=== plugin list ==="
+set +e
+dsh plugin --profile "$DSH_PROFILE" list >"$OUT/plugin-list.txt" 2>&1
+set -e
+
 echo "=== boot dsh web briefly ==="
 set +e
-timeout 20 dsh web --port 3080 >"$OUT/web.log" 2>&1 &
+timeout 45 dsh --profile "$DSH_PROFILE" web --port 3080 >"$OUT/web.log" 2>&1 &
 WEB_PID=$!
-sleep 12
+sleep 18
 ss -lnt >"$OUT/listeners.txt" 2>&1 || netstat -lnt >"$OUT/listeners.txt" 2>&1
 node /opt/dsh-test/scripts/mcp-probe.mjs --ports 3080,3456,7456,7457,8090,8765 --out "$OUT/probe.json"
 kill "$WEB_PID" >/dev/null 2>&1

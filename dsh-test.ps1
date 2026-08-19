@@ -29,7 +29,7 @@ dsh-test.ps1 web
   "selfcheck" { Invoke-Dsh dsh-selfcheck }
   "smoke" { Invoke-Dsh dsh-smoke @Rest }
   "batch" { Invoke-Dsh dsh-batch-smoke @Rest }
-  "mcp-audit" { Invoke-Dsh dsh-mcp-audit @Rest }
+  "mcp-audit" { docker compose run --rm -e DSH_PROFILE=web -e MCP_AUDIT_PROFILE=web dsh dsh-mcp-audit @Rest }
   "sh" { Invoke-Dsh bash }
   "web" { docker compose run --rm --service-ports dsh dsh web --port 3080 }
   default {
