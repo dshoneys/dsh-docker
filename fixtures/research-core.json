@@ -1,0 +1,41 @@
+{
+  "name": "research-core",
+  "note": "First installability batch for the research DSH shortlist. Specs match public npm names; GitHub mirrors are in githubSpec if npm is empty.",
+  "plugins": [
+    {
+      "name": "dsh-ai4scholar",
+      "spec": "dsh-ai4scholar",
+      "githubSpec": "github:literaf/dsh-ai4scholar",
+      "expect": "dsh-ai4scholar",
+      "layer": "search"
+    },
+    {
+      "name": "dsh-zotero",
+      "spec": "dsh-zotero",
+      "githubSpec": "github:Vncntvx/dsh-zotero",
+      "expect": "dsh-zotero",
+      "layer": "library"
+    },
+    {
+      "name": "dsh-plugin-writing-guard",
+      "spec": "dsh-plugin-writing-guard",
+      "githubSpec": "github:xmutfyh/dsh-plugin-writing-guard",
+      "expect": "writing-guard",
+      "layer": "writing"
+    },
+    {
+      "name": "dsh-overleaf",
+      "spec": "dsh-overleaf",
+      "githubSpec": "github:fly233338/dsh-overleaf",
+      "expect": "dsh-overleaf",
+      "layer": "latex"
+    },
+    {
+      "name": "dsh-science",
+      "spec": "dsh-science",
+      "githubSpec": "github:biociao/dsh-science",
+      "expect": "dsh-science",
+      "layer": "loop"
+    }
+  ]
+}

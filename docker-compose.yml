@@ -1,0 +1,43 @@
+# DSH install-test sandbox.
+# Home is tmpfs: every `compose run` starts from the baked empty profiles.
+# pnpm store is a named volume so repeat installs of the same spec stay cheap.
+#
+#   docker compose build
+#   docker compose run --rm dsh dsh-selfcheck
+#   docker compose run --rm dsh dsh-smoke dsh-ai4scholar
+#   docker compose run --rm --service-ports dsh dsh web --port 3080
+
+services:
+  dsh:
+    image: dsh-test:${DSH_VERSION:-rc7}
+    build:
+      context: .
+      args:
+        DSH_VERSION: ${DSH_VERSION:-0.1.0-rc.7}
+    working_dir: /workspace
+    environment:
+      DSH_HOME: /dsh-home
+      PNPM_STORE_DIR: /pnpm-store
+      DSH_PROFILE: ${DSH_PROFILE:-headless}
+      DSH_PERMISSION_MODE: ${DSH_PERMISSION_MODE:-danger-full-access}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      NODE_OPTIONS: --import /fixtures/dom-polyfill.mjs
+      CI: "true"
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - pnpm-store:/pnpm-store
+      - ./runs:/runs
+      - ./workspace:/workspace
+      - ./fixtures:/fixtures:ro
+    tmpfs:
+      - /dsh-home:mode=1777,size=512m
+    ports:
+      - "3080:3080"
+    stdin_open: true
+    tty: true
+    init: true
+
+volumes:
+  pnpm-store:

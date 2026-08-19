@@ -1,0 +1,6 @@
+runs
+workspace
+.git
+*.md
+.env
+.env.*

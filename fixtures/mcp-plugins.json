@@ -1,0 +1,103 @@
+{
+  "name": "mcp-surface-batch",
+  "note": "High-star DSH plugins plus known HTTP MCP bridges. Probe is defensive: bind, auth, CORS, Host header. Aligns with dshoneys/mcp_guard scan flags.",
+  "plugins": [
+    {
+      "name": "open-design",
+      "github": "nexu-io/open-design",
+      "kind": "http-mcp-optional",
+      "defaultBind": "127.0.0.1",
+      "ports": [7456, 7457],
+      "paths": ["/mcp"],
+      "installable": false,
+      "note": "stdio MCP by default; HTTP is od mcp --transport http"
+    },
+    {
+      "name": "deepseek-harness-desktop",
+      "github": "anywhere-labs/deepseek-harness-desktop",
+      "kind": "no-http-mcp",
+      "ports": [3080],
+      "installable": false,
+      "note": "Wraps dsh web; not an MCP server"
+    },
+    {
+      "name": "dsh-web-ui",
+      "github": "zhu1090093659/dsh-web-ui",
+      "spec": "github:zhu1090093659/dsh-web-ui",
+      "kind": "no-http-mcp",
+      "installable": true
+    },
+    {
+      "name": "dsh-anchored-standard",
+      "github": "xiaobright/dsh-anchored-standard",
+      "spec": "github:xiaobright/dsh-anchored-standard",
+      "kind": "no-http-mcp",
+      "installable": true
+    },
+    {
+      "name": "modlens",
+      "github": "liustack/modlens",
+      "spec": "github:liustack/modlens",
+      "kind": "no-http-mcp",
+      "installable": true
+    },
+    {
+      "name": "DSH-better-sidebar",
+      "github": "omdsh-dev/DSH-better-sidebar",
+      "spec": "github:omdsh-dev/DSH-better-sidebar",
+      "kind": "no-http-mcp",
+      "installable": true
+    },
+    {
+      "name": "dsh-TUI",
+      "github": "ccch1mneyyy/dsh-TUI",
+      "kind": "mcp-client-only",
+      "installable": false
+    },
+    {
+      "name": "dsh-deep-whale",
+      "github": "Small-tailqwq/dsh-deep-whale",
+      "kind": "no-http-mcp",
+      "installable": true
+    },
+    {
+      "name": "dsh-market",
+      "github": "dsh-market/dsh-market",
+      "spec": "github:dsh-market/dsh-market",
+      "kind": "no-http-mcp",
+      "installable": true
+    },
+    {
+      "name": "dsh-chatgpt-bridge",
+      "github": "jiezeng2004-design/dsh-chatgpt-bridge",
+      "spec": "github:jiezeng2004-design/dsh-chatgpt-bridge",
+      "kind": "http-mcp",
+      "defaultBind": "127.0.0.1",
+      "ports": [3456],
+      "paths": ["/mcp"],
+      "installable": true,
+      "live": true
+    },
+    {
+      "name": "deepseek-harness-plugin-mcp",
+      "github": "bobleer/deepseek-harness-plugin-mcp",
+      "kind": "http-mcp-optional",
+      "defaultBind": "127.0.0.1",
+      "ports": [8765],
+      "paths": ["/mcp"],
+      "installable": false,
+      "note": "Standalone CLI; --http opens Streamable HTTP"
+    },
+    {
+      "name": "dsh-harness-mcp-server",
+      "github": "chushixixin/dsh-harness-mcp-server",
+      "spec": "github:chushixixin/dsh-harness-mcp-server",
+      "kind": "http-mcp",
+      "defaultBind": "127.0.0.1",
+      "ports": [8090],
+      "paths": ["/mcp"],
+      "installable": true,
+      "live": true
+    }
+  ]
+}

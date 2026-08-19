@@ -1,0 +1,13 @@
+You are running inside the DSH headless research-suite sandbox. Produce a Chinese mini-review, do not stall.
+
+Topic: CRISPR/Cas9 off-target computational predictors, 2022–2026. Question: which methods have an independent reproduction (another group re-ran or re-trained them on public data), and on which benchmarks?
+
+Must:
+1. Prefer this profile's academic tools (ai4scholar / science / writing-guard) over generic web search. If a tool errors (Zotero not running, Overleaf not configured, missing third-party credits), skip it and continue — do not hang.
+2. Do not download full-text PDFs.
+3. At most 8 methods in the comparison table. Columns: method, year, DOI, claimed benchmark, claimed metric, independent reproduction (yes/no/unknown), what the second group reported.
+4. Every numeric claim needs a DOI. If unknown, write unknown. Do not invent papers or numbers.
+5. Write the full markdown to /workspace/review/dsh-output.md AND put the same markdown in your final assistant message.
+6. After drafting, if writing-guard tools exist, run them on that file and append a short audit section. If they do not exist, say so.
+
+Keep it a real mini-review (abstract, methods table, pitfalls, conclusion), not a chatty summary. Finish in this session.
