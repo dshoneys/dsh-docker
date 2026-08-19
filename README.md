@@ -72,7 +72,7 @@ Does **not** run exploit payloads. `tools/list` without a token is an auth check
 docker compose run --rm dsh dsh-mcp-audit
 ```
 
-Fixture: `fixtures/mcp-plugins.json` (high-star DSH plugins + known HTTP MCP bridges).
+Fixture: `fixtures/mcp-plugins.json` (high-star UIs + reverse HTTP MCP bridges + stdio MCP + MCP-client managers). Live install is only `live: true` HTTP bridges.
 
 Each run writes `runs/<utc>-mcp-audit/` (`source-audit.json`, `probe.json`, `listeners.txt`, `result.json`).
 

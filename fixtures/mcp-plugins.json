@@ -1,6 +1,6 @@
 {
   "name": "mcp-surface-batch",
-  "note": "High-star DSH plugins plus known HTTP MCP bridges. Probe is defensive: bind, auth, CORS, Host header. Aligns with dshoneys/mcp_guard scan flags.",
+  "note": "Expanded catalog: high-star UIs, HTTP MCP reverse-bridges, stdio-only MCP, and MCP-client managers. Probe is defensive (bind, auth, CORS, Host). Aligns with dshoneys/mcp_guard.",
   "plugins": [
     {
       "name": "open-design",
@@ -98,6 +98,124 @@
       "paths": ["/mcp"],
       "installable": true,
       "live": true
+    },
+    {
+      "name": "dsh-reef",
+      "github": "huey1in/reef",
+      "spec": "github:huey1in/reef",
+      "kind": "http-mcp",
+      "defaultBind": "127.0.0.1",
+      "ports": [3080],
+      "paths": ["/reef/mcp"],
+      "installable": true,
+      "live": true,
+      "note": "Streamable HTTP on dsh web path /reef/mcp; default authTokenEnv empty, oauth off"
+    },
+    {
+      "name": "dsh-mcp-gateway",
+      "github": "siddhartha-yz/dsh-mcp-gateway",
+      "kind": "http-mcp-standalone",
+      "ports": [3080],
+      "paths": ["/mcp"],
+      "installable": false,
+      "note": "Python OAuth gateway; public /mcp, loopback DSH bridge"
+    },
+    {
+      "name": "deepddw",
+      "github": "ccch713/deepddw",
+      "kind": "http-mcp-standalone",
+      "defaultBind": "0.0.0.0",
+      "ports": [8600, 8500],
+      "paths": ["/mcp", "/api/v1/mcp"],
+      "installable": false,
+      "note": "LAN gateway; Windows exe listens 0.0.0.0:8500; DSH stays localhost"
+    },
+    {
+      "name": "deepseek-harness-codex-bridge",
+      "github": "Aloneswork/deepseek-harness-codex-bridge",
+      "kind": "stdio-mcp",
+      "installable": false,
+      "note": "Codex stdio MCP; not HTTP"
+    },
+    {
+      "name": "deepseek-harness-for-codex",
+      "github": "Seann0824/deepseek-harness-for-codex",
+      "kind": "stdio-mcp",
+      "installable": false
+    },
+    {
+      "name": "dsh-cowork",
+      "github": "Jesse-njx/dsh-cowork",
+      "kind": "stdio-mcp",
+      "installable": false
+    },
+    {
+      "name": "dsh-webfetch",
+      "github": "withlovehub/dsh-webfetch",
+      "kind": "stdio-mcp",
+      "installable": false
+    },
+    {
+      "name": "dsh-cursor-codex",
+      "github": "jeremy9682/dsh-cursor-codex",
+      "kind": "stdio-mcp",
+      "installable": false
+    },
+    {
+      "name": "dsh-heath-mcp",
+      "github": "Heath96/dsh-heath-mcp",
+      "spec": "github:Heath96/dsh-heath-mcp",
+      "kind": "mcp-client",
+      "ports": [9876],
+      "installable": true,
+      "note": "Connects TO Burp/SSE MCP; does not serve HTTP MCP"
+    },
+    {
+      "name": "dsh-mcp-bridge-edge-echo",
+      "github": "Edge-Echo/dsh-mcp-bridge",
+      "kind": "mcp-client",
+      "installable": true,
+      "note": "Official dsh-mcp-client bundle (demo/memory/filesystem)"
+    },
+    {
+      "name": "dsh-project-mcp-bridge",
+      "github": "KYinCode/dsh-project-mcp-bridge",
+      "kind": "mcp-client",
+      "installable": true,
+      "note": "Client bridge, not an MCP server"
+    },
+    {
+      "name": "dsh-mcp-bridge-chhlafiu",
+      "github": "Chhlafiu4312/dsh-mcp-bridge",
+      "kind": "mcp-client",
+      "installable": true
+    },
+    {
+      "name": "dsh-oauth-mcp-client",
+      "github": "springbrand-lab/dsh-oauth-mcp-client",
+      "kind": "mcp-client",
+      "installable": true
+    },
+    {
+      "name": "dsh-mcp-panel",
+      "github": "PerryLink/dsh-mcp-panel",
+      "kind": "mcp-client-ui",
+      "installable": true
+    },
+    {
+      "name": "dsh-mcp-manager-hyq",
+      "github": "hyqhyq3/dsh-mcp-manager",
+      "kind": "mcp-client-ui",
+      "installable": true
+    },
+    {
+      "name": "dsh-mcp-manager-penglai",
+      "github": "penglai-doll/dsh-mcp-manager",
+      "kind": "local-http-api",
+      "ports": [3080],
+      "paths": ["/mcp-manager"],
+      "installable": true,
+      "note": "Same-origin JSON API on dsh web, not MCP protocol"
     }
   ]
 }

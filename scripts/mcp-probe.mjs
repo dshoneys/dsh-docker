@@ -8,21 +8,26 @@ import fs from "node:fs";
 import { execSync } from "node:child_process";
 
 const HOST = process.env.MCP_PROBE_HOST || "127.0.0.1";
-const PATHS = ["/mcp", "/api/v1/mcp", "/", "/message"];
 const TIMEOUT_MS = Number(process.env.MCP_PROBE_TIMEOUT_MS || 2500);
 
 function parseArgs(argv) {
   const ports = [];
+  const paths = [];
   let out = "";
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === "--ports") ports.push(...String(argv[++i] || "").split(",").map(Number).filter(Boolean));
+    else if (argv[i] === "--paths") paths.push(...String(argv[++i] || "").split(",").map((p) => p.trim()).filter(Boolean));
     else if (argv[i] === "--out") out = argv[++i];
   }
   if (!ports.length) {
-    const extra = process.env.MCP_PROBE_PORTS || "3080,3456,7456,7457,8090,8765";
+    const extra = process.env.MCP_PROBE_PORTS || "3080,3456,7456,7457,8090,8765,8500,8600,3111";
     ports.push(...extra.split(",").map(Number).filter(Boolean));
   }
-  return { ports: [...new Set(ports)], out };
+  if (!paths.length) {
+    const extra = process.env.MCP_PROBE_PATHS || "/mcp,/reef/mcp,/api/v1/mcp,/,/message";
+    paths.push(...extra.split(",").map((p) => p.trim()).filter(Boolean));
+  }
+  return { ports: [...new Set(ports)], paths: [...new Set(paths)], out };
 }
 
 function connectOpen(port) {
@@ -159,7 +164,7 @@ function bindOf(port, table) {
   return { addrs, wildcard };
 }
 
-async function probePort(port, table) {
+async function probePort(port, table, paths) {
   const open = await connectOpen(port);
   const bind = bindOf(port, table);
   if (!open) {
@@ -168,7 +173,7 @@ async function probePort(port, table) {
   const getRaw = await httpRaw({ port, method: "GET", path: "/", headers: { Accept: "*/*" } });
   const http = parseHttp(getRaw);
   let mcp = null;
-  for (const path of PATHS) {
+  for (const path of paths) {
     const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list", params: {} });
     const raw = await httpRaw({
       port,
@@ -228,10 +233,10 @@ async function probePort(port, table) {
   };
 }
 
-const { ports, out } = parseArgs(process.argv);
+const { ports, paths, out } = parseArgs(process.argv);
 const table = listeners();
 const findings = [];
-for (const port of ports) findings.push(await probePort(port, table));
+for (const port of ports) findings.push(await probePort(port, table, paths));
 
 const report = {
   host: HOST,

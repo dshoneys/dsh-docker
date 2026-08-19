@@ -11,7 +11,7 @@ const data = JSON.parse(fs.readFileSync(fixturePath, "utf8"));
 const BIND_WILDCARD = /\b(?:0\.0\.0\.0|::\s*,?\s*listen|host:\s*['"]0\.0\.0\.0['"])\b/;
 const BIND_LOOPBACK = /\b127\.0\.0\.1\b|\blocalhost\b/;
 const CORS_STAR = /Access-Control-Allow-Origin['":\s]*\*/i;
-const AUTH = /\b(?:authToken|bearer|www-authenticate|authorization)\b/i;
+const AUTH = /\b(?:authToken|bearer|www-authenticate|authorization|oauth|pkce)\b/i;
 
 async function fetchText(url) {
   const res = await fetch(url, { headers: { "user-agent": "dshoneys-dsh-docker-audit" } });
@@ -35,6 +35,9 @@ async function auditOne(plugin) {
   }
   if (joined && BIND_LOOPBACK.test(joined)) flags.push("docs_claim_loopback");
   if (joined && CORS_STAR.test(joined)) flags.push("docs_cors_star");
+  if (joined && /\b(?:LAN|0\.0\.0\.0|any device on your LAN|public-base-url)\b/i.test(joined)) {
+    flags.push("docs_lan_or_public_expose");
+  }
   if (plugin.kind?.startsWith("http-mcp") && joined && !AUTH.test(joined)) {
     flags.push("docs_no_auth_mention");
   }
