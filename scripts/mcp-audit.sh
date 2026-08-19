@@ -55,8 +55,10 @@ dsh plugin --profile "$DSH_PROFILE" list >"$OUT/plugin-list.txt" 2>&1
 set -e
 
 echo "=== boot dsh web briefly ==="
+# `dsh web` does not accept parent --profile; it uses DSH_HOME + DSH_PROFILE env.
 set +e
-timeout 45 dsh --profile "$DSH_PROFILE" web --port 3080 >"$OUT/web.log" 2>&1 &
+export DSH_PROFILE
+timeout 45 dsh web --port 3080 >"$OUT/web.log" 2>&1 &
 WEB_PID=$!
 sleep 18
 ss -lnt >"$OUT/listeners.txt" 2>&1 || netstat -lnt >"$OUT/listeners.txt" 2>&1
